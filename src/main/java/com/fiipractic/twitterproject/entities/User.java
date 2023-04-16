@@ -1,15 +1,16 @@
 package com.fiipractic.twitterproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -22,7 +23,11 @@ public class User implements UserDetails {
     private String lastname;
     private String username;
     private String password;
-
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<Post> posts;
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private List<User> following;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

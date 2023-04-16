@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
     @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.register(registerRequest));
     }

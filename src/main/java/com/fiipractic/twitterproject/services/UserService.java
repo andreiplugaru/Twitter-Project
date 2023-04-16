@@ -1,9 +1,11 @@
 package com.fiipractic.twitterproject.services;
 
 import com.fiipractic.twitterproject.dtos.UserDto;
+import com.fiipractic.twitterproject.entities.User;
 import com.fiipractic.twitterproject.mappers.UserMapper;
 import com.fiipractic.twitterproject.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +16,6 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
     public final boolean checkUsernameExists(String username) {
         return userRepository.findByUsername(username).isPresent();
     }
@@ -28,5 +29,14 @@ public class UserService {
                 .map(userMapper::mapToUserDto)
                 .toList();
         return userDtos;
+    }
+
+    public Optional<User> find(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public void deleteCurrentUser() {
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userRepository.delete(currentUser);
     }
 }

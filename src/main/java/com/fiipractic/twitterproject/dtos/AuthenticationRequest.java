@@ -12,6 +12,5 @@ public class AuthenticationRequest {
     @NotNull(message = "The username should not be null")
     private String username;
     @NotNull(message = "The password should not be null")
-    @Size(min = 8, message = "Minimum password length: 8 characters")
     private String password;
 }

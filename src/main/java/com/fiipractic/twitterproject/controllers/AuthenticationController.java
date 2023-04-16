@@ -5,11 +5,9 @@ import com.fiipractic.twitterproject.dtos.AuthenticationResponse;
 import com.fiipractic.twitterproject.dtos.RegisterRequest;
 import com.fiipractic.twitterproject.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -17,8 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
     @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest){
-        return ResponseEntity.ok(authenticationService.register(registerRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.register(registerRequest));
     }
 
     @PostMapping("/login")

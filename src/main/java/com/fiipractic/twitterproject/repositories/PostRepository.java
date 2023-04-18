@@ -13,4 +13,6 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     List<Post> findAllByUserAndTimestampAfter(User user, Long timestamp);
 
     List<Post> findAllByUserIn(List<User> users);
+
+    List<Post> findAllByMessageContains(String username);
 }

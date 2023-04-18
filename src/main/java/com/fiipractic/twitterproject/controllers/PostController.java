@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/post")
@@ -33,4 +34,20 @@ public class PostController {
         return ResponseEntity.ok(postService.getFeed());
     }
 
+    @PostMapping("/repost/{postId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void repost(@PathVariable UUID postId) {
+        postService.repost(postId);
+    }
+
+    @DeleteMapping("/{postId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable UUID postId) {
+        postService.delete(postId);
+    }
+
+    @GetMapping("/mentions")
+    public ResponseEntity<List<PostReturnDto>> getMentions() {
+        return ResponseEntity.ok(postService.getPostWithUserMentioned());
+    }
 }

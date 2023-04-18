@@ -29,7 +29,12 @@ public class PostService {
         post.setUser(user);
         postRepository.save(post);
     }
-
+    public Post checkPostExists(UUID postId){
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if(!optionalPost.isPresent())
+            throw new EntityNotFoundException("Post", postId.toString());
+        return optionalPost.get();
+    }
     public List<PostReturnDto> getOwnPosts(Optional<Long> timestamp) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -58,22 +63,14 @@ public class PostService {
     }
 
     public void repost(UUID postId){
-        Optional<Post> optionalPost = postRepository.findById(postId);
-        if(!optionalPost.isPresent())
-            throw new EntityNotFoundException("Post", postId.toString());
-
-        Post post = optionalPost.get();
+        Post post = checkPostExists(postId);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         post.setUser(user);
         postRepository.save(post);
     }
 
     public void delete(UUID postId){
-        Optional<Post> optionalPost = postRepository.findById(postId);
-        if(!optionalPost.isPresent())
-            throw new EntityNotFoundException("Post", postId.toString());
-
-        Post post = optionalPost.get();
+        Post post = checkPostExists(postId);
         postRepository.delete(post);
     }
 

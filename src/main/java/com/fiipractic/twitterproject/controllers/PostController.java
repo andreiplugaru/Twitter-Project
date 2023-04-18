@@ -50,4 +50,5 @@ public class PostController {
     public ResponseEntity<List<PostReturnDto>> getMentions() {
         return ResponseEntity.ok(postService.getPostWithUserMentioned());
     }
+
 }

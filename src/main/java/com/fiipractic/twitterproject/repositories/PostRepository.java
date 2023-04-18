@@ -14,5 +14,4 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
 
     List<Post> findAllByUserIn(List<User> users);
 
-    List<Post> findAllByMessageContains(String username);
 }

@@ -1,4 +1,6 @@
 package com.fiipractic.twitterproject.dtos;
 
-public record PostReturnDto(String message, Long timestamp) {
+import java.util.UUID;
+
+public record PostReturnDto(UUID id, String message, Long timestamp) {
 }

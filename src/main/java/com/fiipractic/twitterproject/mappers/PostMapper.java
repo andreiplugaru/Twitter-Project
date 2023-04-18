@@ -18,7 +18,7 @@ public class PostMapper {
     }
 
     public PostReturnDto mapToPostDto(Post post) {
-        PostReturnDto postReturnDto = new PostReturnDto(post.getMessage(), post.getTimestamp());
+        PostReturnDto postReturnDto = new PostReturnDto(post.getId(), post.getMessage(), post.getTimestamp());
         return postReturnDto;
     }
 }

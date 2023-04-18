@@ -3,11 +3,13 @@ package com.fiipractic.twitterproject.services;
 import com.fiipractic.twitterproject.dtos.PostCreationDto;
 import com.fiipractic.twitterproject.dtos.PostReturnDto;
 import com.fiipractic.twitterproject.entities.Follow;
+import com.fiipractic.twitterproject.entities.Mention;
 import com.fiipractic.twitterproject.entities.Post;
 import com.fiipractic.twitterproject.entities.User;
 import com.fiipractic.twitterproject.exceptions.EntityNotFoundException;
 import com.fiipractic.twitterproject.mappers.PostMapper;
 import com.fiipractic.twitterproject.repositories.PostRepository;
+import com.fiipractic.twitterproject.utils.PostUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -20,14 +22,26 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final UserService userService;
     private final PostMapper postMapper;
     private final FollowService followService;
+    private final MentionService mentionService;
 
     public void create(PostCreationDto postCreationDto) {
         Post post = postMapper.mapToPost(postCreationDto);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         post.setUser(user);
         postRepository.save(post);
+        mentionService.save(getMentions(post));
+    }
+    public List<Mention> getMentions(Post post){
+        List<User> users = userService.getAll();
+        List<User> mentionedUsers = PostUtil.getPostMentions(post, users);
+
+        return  mentionedUsers
+                .stream()
+                .map(user -> new Mention(user, post))
+                .toList();
     }
     public Post checkPostExists(UUID postId){
         Optional<Post> optionalPost = postRepository.findById(postId);
@@ -76,11 +90,11 @@ public class PostService {
 
     public List<PostReturnDto> getPostWithUserMentioned(){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Post> posts = postRepository.findAllByMessageContains(user.getUsername());
+        List<Mention> mentions = mentionService.getByUser(user);
 
-        return posts
+        return mentions
                 .stream()
-                .map(postMapper::mapToPostDto)
+                .map(mention -> postMapper.mapToPostDto(mention.getPost()))
                 .toList();
     }
 }

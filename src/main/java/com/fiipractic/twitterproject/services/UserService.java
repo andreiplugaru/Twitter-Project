@@ -39,4 +39,8 @@ public class UserService {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userRepository.delete(currentUser);
     }
+
+    public List<User> getAll(){
+        return userRepository.findAll();
+    }
 }

@@ -5,16 +5,18 @@ import com.fiipractic.twitterproject.dtos.PostReturnDto;
 import com.fiipractic.twitterproject.services.PostService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/post")
+@RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
 public class PostController {
@@ -26,21 +28,21 @@ public class PostController {
     }
 
     @GetMapping("/own-posts")
-    public ResponseEntity<List<PostReturnDto>> getOwnPosts(@RequestParam Optional<Long> timestamp) {
-       return ResponseEntity.ok(postService.getOwnPosts(timestamp));
+    public ResponseEntity<List<PostReturnDto>> getOwnPosts(@RequestParam Optional<Long> date) {
+       return ResponseEntity.ok(postService.getOwnPosts(date));
     }
     @GetMapping("/feed")
     public ResponseEntity<List<PostReturnDto>> getFeed() {
         return ResponseEntity.ok(postService.getFeed());
     }
 
-    @PostMapping("/repost/{postId}")
+    @PostMapping("/repost")
     @ResponseStatus(HttpStatus.CREATED)
     public void repost(@PathVariable UUID postId) {
         postService.repost(postId);
     }
 
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable UUID postId) {
         postService.delete(postId);

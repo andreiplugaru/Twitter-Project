@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/follow")
+@RequestMapping("/api/v1/followers")
 @RequiredArgsConstructor
 public class FollowController {
     private final FollowService followService;

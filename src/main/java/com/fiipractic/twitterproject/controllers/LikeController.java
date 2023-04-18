@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/like")
+@RequestMapping("/api/v1/likes")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
 public class LikeController {

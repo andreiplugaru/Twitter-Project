@@ -1,6 +1,8 @@
 package com.fiipractic.twitterproject.controllers;
 
 import com.fiipractic.twitterproject.exceptions.EntityNotFoundException;
+import com.fiipractic.twitterproject.exceptions.LikeFoundException;
+import com.fiipractic.twitterproject.exceptions.LikeNotFoundException;
 import com.fiipractic.twitterproject.exceptions.UsernameExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,6 +30,13 @@ public class ControllerAdvisor {
     @ExceptionHandler({EntityNotFoundException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String notFoundEntityHandler(RuntimeException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler({LikeNotFoundException.class, LikeFoundException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String likeExceptionHandler(RuntimeException ex) {
         return ex.getMessage();
     }
 

@@ -18,6 +18,6 @@ public class Like {
     private UUID id;
     @ManyToOne
     private User user;
-    @OneToOne
+    @ManyToOne
     private Post post;
 }

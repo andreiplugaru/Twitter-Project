@@ -11,9 +11,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "replies")
-public class Reply extends Post {
+public class Reply extends BasePost {
     @ManyToOne
-    private Post parent;
+    private BasePost parent;
     private Boolean isPublic;
 }

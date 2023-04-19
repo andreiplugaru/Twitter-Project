@@ -3,6 +3,8 @@ package com.fiipractic.twitterproject.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.commons.lang3.builder.EqualsExclude;
+import org.apache.commons.lang3.builder.HashCodeExclude;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,6 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@EqualsAndHashCode
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,10 +26,14 @@ public class User implements UserDetails {
     private String lastname;
     private String username;
     private String password;
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "user")
     @JsonIgnore
+    @EqualsExclude
+    @HashCodeExclude
     private List<Post> posts;
     @ManyToMany(cascade = CascadeType.REMOVE)
+    @EqualsExclude
+    @HashCodeExclude
     private List<User> following;
 
     @Override

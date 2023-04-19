@@ -4,15 +4,16 @@ import com.fiipractic.twitterproject.entities.Post;
 import com.fiipractic.twitterproject.entities.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PostUtil {
     public static List<String> getPotentialUsernames(Post post) {
-        String[] tokens = post.getMessage().split("@");
+        String[] tokens = post.getMessage().split("[ !.?]+");
         List<String> usernames = new ArrayList<>();
-        for (String token: tokens){
-            usernames.add(token);
-        }
+        for(String token : tokens)
+            if(token.startsWith("@") && token.length() > 1)
+                usernames.add(token.substring(1));
         return usernames;
     }
 

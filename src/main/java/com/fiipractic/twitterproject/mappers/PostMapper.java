@@ -35,18 +35,25 @@ public class PostMapper {
                 post.getTimestamp(),
                 post.getReplies()
                         .stream()
-                        .filter(reply -> reply.getIsPublic() || reply.getUser().equals(user))
+                        .filter(reply -> reply.getIsPublic() || reply.getParent().getUser().equals(user))
                         .map(this::mapToReturnReplyDto)
                         .toList());
         return postReturnDto;
     }
 
     public ReturnReplyDto mapToReturnReplyDto(Reply reply) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         ReturnReplyDto returnReplyDto = new ReturnReplyDto(
                 reply.getId(),
                 reply.getUser().getUsername(),
                 reply.getMessage(),
-                reply.getTimestamp());
+                reply.getTimestamp(),
+                reply.getReplies()
+                    .stream()
+                    .filter(reply2 -> reply2.getIsPublic() || reply2.getParent().getUser().equals(user))
+                    .map(this::mapToReturnReplyDto)
+                    .toList());
         return returnReplyDto;
     }
 

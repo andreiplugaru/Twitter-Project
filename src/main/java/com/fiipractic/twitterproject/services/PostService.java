@@ -55,7 +55,7 @@ public class PostService {
 
         List<Post> posts;
         if (timestamp.isPresent()) {
-            posts = postRepository.findAllByUserAndTimestampAfter(user, timestamp.get());
+            posts = postRepository.findAllByUserAndTimestampGreaterThanEqual(user, timestamp.get());
         } else {
             posts = postRepository.findAllByUser(user);
         }
@@ -71,7 +71,7 @@ public class PostService {
         List<Follow> follows = followService.getFollowingByUser(user);
 
         for(Follow follow : follows){
-            posts.addAll(postRepository.findAllByUserAndTimestampAfter(follow.getFollowing(), follow.getTimestamp()));
+            posts.addAll(postRepository.findAllByUserAndTimestampGreaterThanEqual(follow.getFollowing(), follow.getTimestamp()));
         }
         return posts
                 .stream()

@@ -2,6 +2,7 @@ package com.fiipractic.twitterproject.controllers;
 
 import com.fiipractic.twitterproject.dtos.ReplyDto;
 import com.fiipractic.twitterproject.services.ReplyService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,8 @@ public class ReplyController {
     private final ReplyService replyService;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(tags="Reply")
     public void add(@RequestBody ReplyDto replyDto){
-
         replyService.add(replyDto);
     }
 }

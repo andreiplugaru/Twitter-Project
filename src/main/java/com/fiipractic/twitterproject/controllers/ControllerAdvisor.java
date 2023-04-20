@@ -28,7 +28,7 @@ public class ControllerAdvisor {
 
     @ResponseBody
     @ExceptionHandler({EntityNotFoundException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public String notFoundEntityHandler(RuntimeException ex) {
         return ex.getMessage();
     }

@@ -43,12 +43,9 @@ public class FollowService {
 
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Follow follow = followRepository.findByUserAndFollowing(currentUser, userOptional.get());
-        followRepository.delete(follow);
+        Optional<Follow> followOptional = followRepository.findByUserAndFollowing(currentUser, userOptional.get());
+        if(!followOptional.isPresent())
+            throw new EntityNotFoundException("Follow", username);
+        followRepository.delete(followOptional.get());
     }
-
-//    public void deleteFollowByUsers(User user){
-//        List<Follow> follows = followRepository.findAllByUserOrFollowing(user);
-//        followRepository.deleteAll(follows);
-//    }
 }

@@ -13,7 +13,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @OpenAPIDefinition(
         info = @Info(title = "Twitter API", version = "1.0.0"),
-        servers = {@Server(url = "http://localhost:8081")}
+        servers = {@Server(url = "http://localhost:8081")},
+        tags = {
+                @Tag(name = "Reply"),
+                @Tag(name = "Post"),
+                @Tag(name = "Like"),
+                @Tag(name = "Follow"),
+                @Tag(name = "Auth"),
+                @Tag(name = "User")
+
+        }
+
 )
 @SecurityScheme(
         name = "bearerAuth",

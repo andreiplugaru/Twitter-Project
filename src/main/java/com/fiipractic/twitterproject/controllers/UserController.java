@@ -2,6 +2,7 @@ package com.fiipractic.twitterproject.controllers;
 
 import com.fiipractic.twitterproject.dtos.UserDto;
 import com.fiipractic.twitterproject.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
+    @Operation(tags="User")
     public ResponseEntity<List<UserDto>> searchUser(@RequestParam(required = false) Optional<String> username,
                                                     @RequestParam (required = false) Optional<String> firstName,
                                                     @RequestParam (required = false) Optional<String> lastName){
@@ -29,6 +31,7 @@ public class UserController {
     }
 
     @DeleteMapping("")
+    @Operation(tags="User")
     public void deleteUser(){
         userService.deleteCurrentUser();
     }

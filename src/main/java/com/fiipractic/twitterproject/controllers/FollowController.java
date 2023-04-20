@@ -1,6 +1,7 @@
 package com.fiipractic.twitterproject.controllers;
 
 import com.fiipractic.twitterproject.services.FollowService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,12 +18,14 @@ public class FollowController {
     private final FollowService followService;
     @PostMapping("/{username}")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(tags="Follow")
     public void followUser(@PathVariable String username){
         followService.followUser(username);
     }
 
     @DeleteMapping("/{username}")
     @ResponseStatus(HttpStatus.OK)
+    @Operation(tags="Follow")
     public void unfollowUser(@PathVariable String username){
         followService.unfollowUser(username);
     }

@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface PostRepository extends JpaRepository<Post, UUID> {
     List<Post> findAllByUser(User user);
 
-    List<Post> findAllByUserAndTimestampAfter(User user, Long timestamp);
+    List<Post> findAllByUserAndTimestampGreaterThanEqual(User user, Long timestamp);
 }

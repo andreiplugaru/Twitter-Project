@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Data
@@ -17,24 +18,36 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-@EqualsAndHashCode
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String firstname;
+
     private String lastname;
+
     private String username;
     private String password;
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "user")
     @JsonIgnore
-    @EqualsExclude
-    @HashCodeExclude
+
     private List<Post> posts;
     @ManyToMany(cascade = CascadeType.REMOVE)
-    @EqualsExclude
-    @HashCodeExclude
+
     private List<User> following;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
